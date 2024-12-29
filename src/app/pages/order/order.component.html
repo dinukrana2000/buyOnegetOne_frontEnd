@@ -1,1 +1,27 @@
-<p>order works!</p>
+<div class="order-container">
+    <h1>Place an Order</h1>
+  
+    <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+      <div formArrayName="orderLineItemsDtoList">
+        <div *ngFor="let item of orderLineItems.controls; let i = index" [formGroupName]="i" class="order-item">
+          <label for="skuCode-{{ i }}">SKU Code</label>
+          <input id="skuCode-{{ i }}" formControlName="skuCode" type="text" placeholder="Enter SKU Code" />
+  
+          <label for="price-{{ i }}">Price</label>
+          <input id="price-{{ i }}" formControlName="price" type="number" min="0" placeholder="Enter Price" />
+  
+          <label for="quantity-{{ i }}">Quantity</label>
+          <input id="quantity-{{ i }}" formControlName="quantity" type="number" min="1" placeholder="Enter Quantity" />
+  
+          <button type="button" class="remove-btn" (click)="removeOrderItem(i)" *ngIf="orderLineItems.length > 1">
+            Remove
+          </button>
+        </div>
+      </div>
+  
+      <button type="button" class="add-btn" (click)="addOrderItem()">Add Another Item</button>
+      <button type="submit" class="submit-btn">Submit Order</button><br />
+      <button type="button" class="add-btn" (click)="clearForm()">Clear</button>
+    </form>
+  </div>
+  

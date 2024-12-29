@@ -12,7 +12,10 @@ import { HeaderComponent } from './shared/header/header.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for Toastr
 import { ToastrModule } from 'ngx-toastr';
 import { OrderComponent } from './pages/order/order.component'; // Toastr Module
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { OidcSecurityService } from "angular-auth-oidc-client";
+import { authInterceptor } from './interceptor/auth.interceptor'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,8 +35,12 @@ import { OrderComponent } from './pages/order/order.component'; // Toastr Module
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withInterceptors([authInterceptor])),
+    OidcSecurityService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

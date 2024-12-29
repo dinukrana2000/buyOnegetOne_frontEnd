@@ -1,1 +1,46 @@
-<p>product works!</p>
+<div class="product-container">
+    <h1>Product List</h1>
+  
+    <div *ngIf="isLoading" class="loading">
+      Loading products...
+    </div>
+  
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  
+    <ul *ngIf="!isLoading && !errorMessage">
+      <li *ngFor="let product of products">
+        <h3>{{ product.name }}</h3>
+        <p>Price: ${{ product.price }}</p>
+        <p>{{ product.description }}</p>
+      </li>
+    </ul>
+  
+    <h2>Add a New Product</h2>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" type="text" />
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+          Name is required.
+        </div>
+      </div>
+  
+      <div>
+        <label for="price">Price:</label>
+        <input id="price" formControlName="price" type="text" />
+        <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+          Enter a valid price.
+        </div>
+      </div>
+  
+      <div>
+        <label for="description">Description:</label>
+        <textarea id="description" formControlName="description"></textarea>
+      </div>
+  
+      <button type="submit" [disabled]="productForm.invalid">Add Product</button>
+    </form>
+  </div>
+  
